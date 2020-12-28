@@ -1,0 +1,720 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="javascript,Vue,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mac Meng's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="一句话经验 computed干什么用 动态数据计算,不确定数据有没有 123456789computedTagId: function()&amp;#123;  vm = this;  // 如果第三个品类选择不存在, 那么是-1  if(vm.tagIdLevel3 == -1)&amp;#123;      return vm.tagIdLevel2;  &amp;#125; else &amp;#123;      ret">
+<meta name="keywords" content="javascript,Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue 组件开发心得(1)">
+<meta property="og:url" content="http://mactive.github.io/2017/03/24/vue-component-1/index.html">
+<meta property="og:site_name" content="Mac Meng&#39;s Blog">
+<meta property="og:description" content="一句话经验 computed干什么用 动态数据计算,不确定数据有没有 123456789computedTagId: function()&amp;#123;  vm = this;  // 如果第三个品类选择不存在, 那么是-1  if(vm.tagIdLevel3 == -1)&amp;#123;      return vm.tagIdLevel2;  &amp;#125; else &amp;#123;      ret">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-12-28T00:27:05.587Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue 组件开发心得(1)">
+<meta name="twitter:description" content="一句话经验 computed干什么用 动态数据计算,不确定数据有没有 123456789computedTagId: function()&amp;#123;  vm = this;  // 如果第三个品类选择不存在, 那么是-1  if(vm.tagIdLevel3 == -1)&amp;#123;      return vm.tagIdLevel2;  &amp;#125; else &amp;#123;      ret">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 4951855,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Vue 组件开发心得(1) | Mac Meng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Mac Meng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Vue 组件开发心得(1)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-03-24T17:07:44+08:00" content="2017-03-24">
+              2017-03-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/24/vue-component-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/24/vue-component-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>一句话经验</strong></p>
+<h2 id="computed干什么用"><a href="#computed干什么用" class="headerlink" title="computed干什么用"></a>computed干什么用</h2><ol>
+<li><p>动态数据计算,不确定数据有没有</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">computedTagId: <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">  vm = <span class="keyword">this</span>;</span><br><span class="line">  <span class="comment">// 如果第三个品类选择不存在, 那么是-1</span></span><br><span class="line">  <span class="keyword">if</span>(vm.tagIdLevel3 == <span class="number">-1</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> vm.tagIdLevel2;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> vm.tagIdLevel3;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>动态dom选择,不确定dom节点没有没有</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$licenceDate: <span class="function"><span class="params">()</span> =&gt;</span> $(<span class="string">".licence_validateDate"</span>),</span><br><span class="line">$speDate: <span class="function"><span class="params">()</span> =&gt;</span> $(<span class="string">".spe_pmt_validateDate"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="refs"><a href="#refs" class="headerlink" title="$refs"></a>$refs</h2><ol>
+<li>不同组件之间的 \$refs 不混用, 可以重名, 你也可以访问到父级的 \$refs 可以理解为是个树的结构<br> $refs 是个Object, 可以遍历. 可以.xx 和 [xx]</li>
+<li>ref 放在什么东西上就是什么, reference的意思</li>
+</ol>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// this.<span class="variable">$refs</span>[<span class="string">'username'</span>] 就是个dom对象</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">dom</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">// this.<span class="variable">$refs</span>.city 就是个vue组件(vue <span class="keyword">instance</span>)</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">auto-select</span> <span class="attr">ref</span>=<span class="string">"city"</span>&gt;</span><span class="tag">&lt;/<span class="name">auto-select</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="set"><a href="#set" class="headerlink" title="$set"></a>$set</h2><ol>
+<li>不允许直接往data根对象中$set不存在的属性, 可以$set 到 this.someObject</li>
+<li>如果$set一个Object,Object中无论有几个层级, vue都会为每个对象建立 set和get方法</li>
+<li>就算是对象是后$set的,对于子属性的watch方法也是可以呗触发的<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a 在data中初始化了, 必须是个Object对象, 如果a.b 也初始化了</span></span><br><span class="line"><span class="comment">// $set会覆盖a.b 并深度遍历b中所有的子属性, 并为他们建立set和get方法</span></span><br><span class="line">mounted: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="keyword">this</span>.$<span class="keyword">set</span>(<span class="keyword">this</span>.a, <span class="string">'b'</span>, &#123;</span><br><span class="line">   name: &#123;</span><br><span class="line">     first: <span class="string">'Meng'</span>,</span><br><span class="line">     last: <span class="string">'Mac'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    age: <span class="number">121</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="mixin-用来做什么"><a href="#mixin-用来做什么" class="headerlink" title="mixin 用来做什么"></a>mixin 用来做什么</h2><p>和业务不强相关又不能独立变成组件的东西.<br>写 mixin 的时候可以,拿到组件的data和prop,可以在完整的生命周期中做事情. 基本上可以理解extend 到 vue的options 中去. 不过有merge优先级选择 <code>Vue.config.optionMergeStrategies</code></p>
+<ul>
+<li>监控, log</li>
+<li>性能统计</li>
+<li>每个组件都需要包含的内容, uuid等, 组件通讯等</li>
+<li>将过大的.vue文件拆成多个 mixin 方便重构 </li>
+</ul>
+<h2 id="directive-用来做什么"><a href="#directive-用来做什么" class="headerlink" title="directive 用来做什么"></a>directive 用来做什么</h2><p>一些dom event相关的事情, 也是配合这组件取用, 需要实现有限的hook funcion. 适合移动端手势, 统一滚动等等</p>
+<ul>
+<li>vue-tap</li>
+<li>vue-focus </li>
+<li>vue-clickaway</li>
+<li>vue-scroll</li>
+</ul>
+<h2 id="little-tips"><a href="#little-tips" class="headerlink" title="little tips"></a>little tips</h2><h3 id="tips1"><a href="#tips1" class="headerlink" title="tips1"></a>tips1</h3><p>如果你想传入的props 不是string类型,记得加 <code>v-bind:</code> 或者简写成 <code>:</code></p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">//</span> 如果写成 searchCount=<span class="string">"2"</span>, 那么 组件内部 </span><br><span class="line"><span class="regexp">//</span> <span class="keyword">typeof</span> <span class="keyword">this</span>.searchCount == String</span><br><span class="line">&lt;amap-search </span><br><span class="line"> :searchCount=<span class="string">"2"</span></span><br><span class="line"> :autoConfirm=<span class="string">"false"</span></span><br><span class="line"> :useClick=<span class="string">"true"</span></span><br><span class="line"> title=<span class="string">"amap title"</span></span><br><span class="line"> @userInput=<span class="string">"handleUserInput"</span></span><br><span class="line"> @pickedLocation=<span class="string">"handlePickedLocation"</span>&gt;</span><br><span class="line">&lt;/amap-search&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag">#javascript</a>
+          
+            <a href="/tags/Vue/" rel="tag">#Vue</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/04/JavaScript-dawn-blosson-3/" rel="next" title="JavaScript 朝花夕拾 -- 3 浏览器中JavaScript的好基友">
+                <i class="fa fa-chevron-left"></i> JavaScript 朝花夕拾 -- 3 浏览器中JavaScript的好基友
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/20/nodejs-addon-cpp/" rel="prev" title="NodeJS 和 C++ -- 低(前)端程序员为什么要学C++">
+                NodeJS 和 C++ -- 低(前)端程序员为什么要学C++ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/03/24/vue-component-1/" data-title="Vue 组件开发心得(1)" data-content data-url="http://mactive.github.io/2017/03/24/vue-component-1/">
+  <div class="ds-share-inline">
+    <ul class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/24/vue-component-1/" data-title="Vue 组件开发心得(1)" data-url="http://mactive.github.io/2017/03/24/vue-component-1/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://photo.yupoo.com/mactive/G1GRBPTB/medish.jpg" alt="Mac Meng">
+          <p class="site-author-name" itemprop="name">Mac Meng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mactive" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/moodomac" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1217609444" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/moodomac" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/meng-qian" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#computed干什么用"><span class="nav-number">1.</span> <span class="nav-text">computed干什么用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#refs"><span class="nav-number">2.</span> <span class="nav-text">$refs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#set"><span class="nav-number">3.</span> <span class="nav-text">$set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mixin-用来做什么"><span class="nav-number">4.</span> <span class="nav-text">mixin 用来做什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#directive-用来做什么"><span class="nav-number">5.</span> <span class="nav-text">directive 用来做什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#little-tips"><span class="nav-number">6.</span> <span class="nav-text">little tips</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tips1"><span class="nav-number">6.1.</span> <span class="nav-text">tips1</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mac Meng</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mactive-blog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

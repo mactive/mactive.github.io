@@ -1,0 +1,713 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Objective-C,ReactNative,Component,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mac Meng's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="Native-Module 基本分为两种 可见的Module. (显示,原生动画)View 本身继承自RCTView,如果想要在JS中使用,需要再实现一个 Manager 不可见的Module. (数据,网络,modeling)需要实现 delegate  今天我们来讲讲第二种不可见的Module Module 和 method的关系One Module -&amp;gt; MethodA-&amp;gt; Me">
+<meta name="keywords" content="Objective-C,ReactNative,Component">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ReactNative-NativeComponent -- 1. 官方指引">
+<meta property="og:url" content="http://mactive.github.io/2016/03/31/React-Native-NativeComponent/index.html">
+<meta property="og:site_name" content="Mac Meng&#39;s Blog">
+<meta property="og:description" content="Native-Module 基本分为两种 可见的Module. (显示,原生动画)View 本身继承自RCTView,如果想要在JS中使用,需要再实现一个 Manager 不可见的Module. (数据,网络,modeling)需要实现 delegate  今天我们来讲讲第二种不可见的Module Module 和 method的关系One Module -&amp;gt; MethodA-&amp;gt; Me">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-12-28T00:27:05.584Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ReactNative-NativeComponent -- 1. 官方指引">
+<meta name="twitter:description" content="Native-Module 基本分为两种 可见的Module. (显示,原生动画)View 本身继承自RCTView,如果想要在JS中使用,需要再实现一个 Manager 不可见的Module. (数据,网络,modeling)需要实现 delegate  今天我们来讲讲第二种不可见的Module Module 和 method的关系One Module -&amp;gt; MethodA-&amp;gt; Me">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 4951855,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ReactNative-NativeComponent -- 1. 官方指引 | Mac Meng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Mac Meng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ReactNative-NativeComponent -- 1. 官方指引
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-03-31T12:03:15+08:00" content="2016-03-31">
+              2016-03-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/31/React-Native-NativeComponent/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/31/React-Native-NativeComponent/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Native-Module-基本分为两种"><a href="#Native-Module-基本分为两种" class="headerlink" title="Native-Module 基本分为两种"></a>Native-Module 基本分为两种</h2><ul>
+<li>可见的Module. (显示,原生动画)<br>View 本身继承自RCTView,如果想要在JS中使用,需要再实现一个 Manager</li>
+<li>不可见的Module. (数据,网络,modeling)<br>需要实现 <rctbridgemodule>delegate</rctbridgemodule></li>
+</ul>
+<p>今天我们来讲讲第二种不可见的Module</p>
+<h3 id="Module-和-method的关系"><a href="#Module-和-method的关系" class="headerlink" title="Module 和 method的关系"></a>Module 和 method的关系</h3><h4 id="One-Module"><a href="#One-Module" class="headerlink" title="One Module"></a>One Module</h4><blockquote>
+<p>-&gt; MethodA<br>-&gt; MethodB<br>…<br>-&gt; MethodN</p>
+</blockquote>
+<h3 id="官方指引"><a href="#官方指引" class="headerlink" title="官方指引"></a><a href="http://facebook.github.io/react-native/docs/native-modules-ios.html#content" target="_blank" rel="noopener">官方指引</a></h3><ol>
+<li>正常的参数, 所有json格式的参数<br>而且有个强大的Util RCTConvert.h 从字体,颜色,string,number都可以转换</li>
+<li>支持回调 callback, 可以传function进去<br>原生类型是 RCTResponseSenderBlock<br>和传参都是 用RCT_EXPORT_METHOD 声明</li>
+<li><p>支持Promise<br>但是需要用到 RCT_REMAP_METHOD 声明,再辅助两个block<br>RCTPromiseResolveBlock/ RCTPromiseRejectBlock<br>JS 层面 用  ES2016 <strong>async/await</strong> 去写, 这个需要看一下</p>
+</li>
+<li><p>接下来讲多线程<br>methodQueue 是在一个Module下的所有method共享的, 要么这个module是在主线程上执行,要么就是在某个线程上执行. 而且大家可以共享这个线程<br>如果我有一个方法需要单独在新的线程上执行怎么办,比如相对耗时的存储等等.我可以在方法里面 用dispatch_async包一下执行代码,执行完之后可以用 2.里面提到的callback通知外面<br>最后提到了 在不同的Module中共享线程,比较高深</p>
+</li>
+<li><p>导出常量<br>返回Dictionary的native method 在初始化的时候完成赋值,运行时的时候再改变他,js也拿不到最新的值.<br>如果要枚举常量,他建议新建一个RCTConvert的extension</p>
+</li>
+<li>向JS发送Event<br>如何使用 bridge.eventDispatcher, 如何在native send 以及如何在JS subscription. 这样Native 也可作用在JS上了,这是除了 callback的另一种实现.<br>采用的是观察者模式. 如果想用JS作用在Native上直接调取Native 用RCT_EXPORT_METHOD 暴露出来的函数就好了,各种回调,promise,sender伺候你.</li>
+</ol>
+<p>这里多数一句,我们在OC里常用的传递消息的方式有很多 KVO,Delegate,Block. 还有高逼格的NSOperation,GCD 等等.基本上RN都用了.可见facebook的原生功力还是比较深厚的</p>
+<ol start="7">
+<li>最后提到了如何在swift 用RN,然并卵.</li>
+</ol>
+<h3 id="RN-ReactNative"><a href="#RN-ReactNative" class="headerlink" title="RN = ReactNative"></a>RN = ReactNative</h3><p>————</p>
+<h4 id="有兴趣的同学可以读一下具体-Module-和-Method-的原生实现"><a href="#有兴趣的同学可以读一下具体-Module-和-Method-的原生实现" class="headerlink" title="有兴趣的同学可以读一下具体 Module 和 Method 的原生实现"></a>有兴趣的同学可以读一下具体 Module 和 Method 的原生实现</h4><blockquote>
+<p>关于Bridge的一篇facebook的<a href="http://tadeuzagallo.com/blog/react-native-bridge/" target="_blank" rel="noopener">内部剖析</a><br>如何优化RNApp性能的<a href="https://code.facebook.com/posts/895897210527114/dive-into-react-native-performance/" target="_blank" rel="noopener">官方介绍</a></p>
+</blockquote>
+<h4 id="next"><a href="#next" class="headerlink" title="next"></a>next</h4><p>下一部分准备按照官方的指引写一个Demo 把这些点传起来</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Objective-C/" rel="tag">#Objective-C</a>
+          
+            <a href="/tags/ReactNative/" rel="tag">#ReactNative</a>
+          
+            <a href="/tags/Component/" rel="tag">#Component</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/31/AMD_CommonJS-1/" rel="next" title="AMD 和 CommonJS -- 1. 基本概念">
+                <i class="fa fa-chevron-left"></i> AMD 和 CommonJS -- 1. 基本概念
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/19/shadowsocks_proxychainsNG_iterms2/" rel="prev" title="ShadowSocks+ProxyChains-NG 实现终端(iTerm2)下代理">
+                ShadowSocks+ProxyChains-NG 实现终端(iTerm2)下代理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/03/31/React-Native-NativeComponent/" data-title="ReactNative-NativeComponent -- 1. 官方指引" data-content data-url="http://mactive.github.io/2016/03/31/React-Native-NativeComponent/">
+  <div class="ds-share-inline">
+    <ul class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/03/31/React-Native-NativeComponent/" data-title="ReactNative-NativeComponent -- 1. 官方指引" data-url="http://mactive.github.io/2016/03/31/React-Native-NativeComponent/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://photo.yupoo.com/mactive/G1GRBPTB/medish.jpg" alt="Mac Meng">
+          <p class="site-author-name" itemprop="name">Mac Meng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mactive" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/moodomac" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1217609444" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/moodomac" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/meng-qian" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Native-Module-基本分为两种"><span class="nav-number">1.</span> <span class="nav-text">Native-Module 基本分为两种</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Module-和-method的关系"><span class="nav-number">1.1.</span> <span class="nav-text">Module 和 method的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#One-Module"><span class="nav-number">1.1.1.</span> <span class="nav-text">One Module</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#官方指引"><span class="nav-number">1.2.</span> <span class="nav-text">官方指引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RN-ReactNative"><span class="nav-number">1.3.</span> <span class="nav-text">RN = ReactNative</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#有兴趣的同学可以读一下具体-Module-和-Method-的原生实现"><span class="nav-number">1.3.1.</span> <span class="nav-text">有兴趣的同学可以读一下具体 Module 和 Method 的原生实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#next"><span class="nav-number">1.3.2.</span> <span class="nav-text">next</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mac Meng</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mactive-blog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

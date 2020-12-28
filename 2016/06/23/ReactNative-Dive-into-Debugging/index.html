@@ -1,0 +1,783 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="ReactNative,Debugging,Dive,翻译,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mac Meng's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="翻译改编自 Shaheen Ghiassy的Deep Diving React Native Debugging from medium.com  中文译名: 深入理解 React Native Debugging 译者注: 使用React Native(以下简称RN) 开发已经有3个月了,Debug更是每天都会用到的技能.最近闲来看看一些原理性的文章,决定先从debug入手,可以更深入了解到框">
+<meta name="keywords" content="ReactNative,Debugging,Dive,翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解 React Native Debugging">
+<meta property="og:url" content="http://mactive.github.io/2016/06/23/ReactNative-Dive-into-Debugging/index.html">
+<meta property="og:site_name" content="Mac Meng&#39;s Blog">
+<meta property="og:description" content="翻译改编自 Shaheen Ghiassy的Deep Diving React Native Debugging from medium.com  中文译名: 深入理解 React Native Debugging 译者注: 使用React Native(以下简称RN) 开发已经有3个月了,Debug更是每天都会用到的技能.最近闲来看看一些原理性的文章,决定先从debug入手,可以更深入了解到框">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/265410/16294974/7ee42dfc-3956-11e6-8478-2eb8a46cf6c0.png">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/265410/16288966/ca30c06e-3923-11e6-90d1-05218ad813ce.png">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/265410/16295885/f5b6dfa6-395b-11e6-8c3e-07f4788bce3b.png">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/265410/16297580/0281766c-3964-11e6-96fe-d3653564ce0d.png">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/265410/16297760/ca859d0a-3964-11e6-9215-fa6a1722c20e.png">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/265410/16298920/39de43e6-396a-11e6-8f7a-1e19ad81513d.png">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/265410/16299385/a19bdc76-396c-11e6-8c46-30a4d4a3d4ae.png">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/265410/16288993/0aa47d02-3924-11e6-9f01-b56487ca39f6.png">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/265410/16288980/e6812830-3923-11e6-93ed-b5e34a5f95d2.png">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/265410/16300546/0ce516cc-3973-11e6-965b-64fc3dc320b0.png">
+<meta property="og:updated_time" content="2020-12-28T00:27:05.584Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解 React Native Debugging">
+<meta name="twitter:description" content="翻译改编自 Shaheen Ghiassy的Deep Diving React Native Debugging from medium.com  中文译名: 深入理解 React Native Debugging 译者注: 使用React Native(以下简称RN) 开发已经有3个月了,Debug更是每天都会用到的技能.最近闲来看看一些原理性的文章,决定先从debug入手,可以更深入了解到框">
+<meta name="twitter:image" content="https://cloud.githubusercontent.com/assets/265410/16294974/7ee42dfc-3956-11e6-8478-2eb8a46cf6c0.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 4951855,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 深入理解 React Native Debugging | Mac Meng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Mac Meng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                深入理解 React Native Debugging
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-06-23T19:03:36+08:00" content="2016-06-23">
+              2016-06-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/23/ReactNative-Dive-into-Debugging/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/23/ReactNative-Dive-into-Debugging/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>翻译改编自 Shaheen Ghiassy的<a href="https://medium.com/@shaheenghiassy/deep-diving-react-native-debugging-ea406ed3a691#.hudt9frpw" target="_blank" rel="noopener">Deep Diving React Native Debugging</a> from medium.com</p>
+</blockquote>
+<p><strong>中文译名</strong>: 深入理解 React Native Debugging</p>
+<p>译者注: 使用React Native(以下简称RN) 开发已经有3个月了,Debug更是每天都会用到的技能.最近闲来看看一些原理性的文章,决定先从debug入手,可以更深入了解到框架背后的东西.原作者写这篇文章的时候RN还是0.11版本,我的开发版本是 0.20.其实debug的原理没有改变,只是个别环节的实现function增加了一些参数.下面我们开始正文</p>
+<p>——————</p>
+<p>如果你和我一样,当你看到React Native 简单的debugging的时候,你一定会觉得这太拽了.在Chrome浏览器里打下断点,就可以终端iOS应用.而且可以console和watch各种变量.</p>
+<p>但如果你和我一样,你一定不会相信编程中有魔法的存在,而要去探究他的工程实现.这篇文章就是带你理解React Native Debugging 背后的原理.</p>
+<a id="more"></a>
+<p>tl;dr 文章很长,不喜勿读</p>
+<p>三方清单</p>
+<ul>
+<li>一个NodeJS server. 称为 Packager. 运行在 terminal中</li>
+<li>Chrome 浏览器从Packager加载你的React Native JavaScript,并提供内置的debugging  支持,就像 debug 普通的JavaScript代码一样</li>
+<li>设备上跑的App 和 在浏览器中跑的js应用 通过webSocket 通信. 设备和浏览器互相通过JSON命令通讯,浏览器来控制设备. 当然站在浏览器背后的是这个 Packager.</li>
+</ul>
+<p>下面就来详细讲述这三方的关系.</p>
+<h2 id="深入理解"><a href="#深入理解" class="headerlink" title="深入理解"></a>深入理解</h2><p>如果你想继续了解,你会对和debugging有关的过程,文件和操作更感兴趣.</p>
+<blockquote>
+<p>Note: React Native 发展迅速, 本篇文章基于 React Native 0.20 版本</p>
+</blockquote>
+<p>让我们先来直观的感受一下上面提到的三方+你的代码</p>
+<p><img src="https://cloud.githubusercontent.com/assets/265410/16294974/7ee42dfc-3956-11e6-8478-2eb8a46cf6c0.png" alt="一个典型的react应用中的各个角色"></p>
+<p>这四方之前的关系图有点小复杂,我们会慢慢展开.Facebook和一些第三方都在致力于开发一站式的开发工具,例如<a href="http://nuclide.io/" target="_blank" rel="noopener">Nuclide IDE</a>, <a href="https://www.decosoftware.com/" target="_blank" rel="noopener">Deco Sofeware</a>,但无论怎么说,我们还是探究一下各方的细节.</p>
+<p><strong>A. 你的移动设备</strong>: native code 运行在上面<br><strong>B. NodeJS Server</strong>: Facebook’s <a href="https://github.com/facebook/react-native/tree/master/packager" target="_blank" rel="noopener">Packager</a> NodeJS Server. 一个类WebPack的项目,有个基于 CommonJS 的模块系统, 和一堆可用的黑科技.用来帮助 React Native 开发<br><strong>C. Chrome 浏览器</strong>: 这个不用介绍了吧<br><strong>D. React Native JavaScript code</strong>: 你的价值体现</p>
+<h2 id="那么究竟在-Debugging-时发生了什么"><a href="#那么究竟在-Debugging-时发生了什么" class="headerlink" title="那么究竟在 Debugging 时发生了什么"></a>那么究竟在 Debugging 时发生了什么</h2><h3 id="Step-1-Start-Packager"><a href="#Step-1-Start-Packager" class="headerlink" title="Step 1: Start Packager"></a>Step 1: Start Packager</h3><p>如果你在命令行中输入: “npm start”. 那么他会触发 react-native/local-cli/cli.js 去执行start.这个在 项目的package.json 中可以看到. 包括在XCode &gt; Build Phases &gt; React-Native shell &gt; react-native-xcode.sh 最后执行的也是 cli.js. 然后他会起一个 NodeJS Server,基于 Connect 开发的.</p>
+<script src="//gist.github.com/e3c8f76cd59a26d5d8353b8542374ac1.js?file=runServer.js"></script>
+<p><a href="https://gist.github.com/mactive/e3c8f76cd59a26d5d8353b8542374ac1" target="_blank" rel="noopener">https://gist.github.com/mactive/e3c8f76cd59a26d5d8353b8542374ac1</a></p>
+<p>顺序是这样的</p>
+<ol>
+<li>Packager 打包好并host <a href="http://localhost:8081/index.ios.bundle" target="_blank" rel="noopener">http://localhost:8081/index.ios.bundle</a></li>
+<li>packager 触发 <a href="http://localhost:8081/launch-chrome-devtools" target="_blank" rel="noopener">http://localhost:8081/launch-chrome-devtools</a></li>
+<li>chrome打开 <a href="http://localhost:8081/debugger-ui.html" target="_blank" rel="noopener">http://localhost:8081/debugger-ui.html</a></li>
+</ol>
+<p><img src="https://cloud.githubusercontent.com/assets/265410/16288966/ca30c06e-3923-11e6-90d1-05218ad813ce.png" alt="Terminal 中的呈现"></p>
+<p>同时 Packager 会配置一个 WebSocket 的服务,这个稍后介绍.</p>
+<blockquote>
+<p><strong>tips:</strong> webSocket 是附着在http协议上的. <a href="http://localhost:8081" target="_blank" rel="noopener">http://localhost:8081</a> ws://localhost:8081</p>
+</blockquote>
+<h3 id="Step-2-Run-React-Native-App-in-Simulator"><a href="#Step-2-Run-React-Native-App-in-Simulator" class="headerlink" title="Step 2: Run React Native App in Simulator"></a>Step 2: Run React Native App in Simulator</h3><p>在XCode中 run,然后模拟器中会呈现. 实测是这样的, 跳过Step 1.直接在Xcode中run,系统会自动默认的Terminal,然后跑 npm start. 在真机调试一样也会启动.</p>
+<p><img src="https://cloud.githubusercontent.com/assets/265410/16295885/f5b6dfa6-395b-11e6-8c3e-07f4788bce3b.png" alt="程序跑起来了"></p>
+<blockquote>
+<p>真机调试 Tip: 在用真机的时候,ws 服务的地址要换成 笔记本的IP,不能用localhost<br>要不iOS设备在Wifi环境下访问不到 ws服务. <a href="http://moduscreate.com/automated-ip-configuration-for-react-native-development/" target="_blank" rel="noopener">Automated IP Configuration for React Native Development</a></p>
+</blockquote>
+<p>一旦App在设备上跑起来,他会去访问 <a href="http://localhost.com:8081/index.ios.bundle,并把它转换成原生的代码执行" target="_blank" rel="noopener">http://localhost.com:8081/index.ios.bundle,并把它转换成原生的代码执行</a>. 想看React Native原理可以参考<a href="http://blog.cnbang.net/tech/2698/" target="_blank" rel="noopener">React Native通信机制详解</a>和<a href="http://blog.csdn.net/u014486880/article/details/51535391" target="_blank" rel="noopener">React Native之底层源码分析篇</a></p>
+<p>Packager 是跑在本地的,一旦他收到浏览器或者App的请求,他会使用Babel和Facebook自家的grapher 去collect,concat,transplie and modularize,你的 React Native JavaScript (D) 代码编程一个 response. 所以当你改动代码并保存的时候你会看到 Terminal 中会重新 transforming.</p>
+<p><img src="https://cloud.githubusercontent.com/assets/265410/16297580/0281766c-3964-11e6-96fe-d3653564ce0d.png" alt="Packager process"></p>
+<blockquote>
+<p>访问 <a href="http://localhost:8081/index.ios.bundle" target="_blank" rel="noopener">http://localhost:8081/index.ios.bundle</a>,看一下package之后的代码</p>
+</blockquote>
+<p>当iOS设备收到代码的时候, 它会把JavaScript 代码放到 Apple’s JavaScript Code 中去执行.</p>
+<h3 id="Step-3-Turn-on-Debugging-Mode"><a href="#Step-3-Turn-on-Debugging-Mode" class="headerlink" title="Step 3: Turn on Debugging Mode"></a>Step 3: Turn on Debugging Mode</h3><p>现在App在设备上正常的跑着,下一步就是进入 debug 模式,这样就可以通过Chrome的webSocket inspector 去查看 React Native 编译过的版本 和 未编译版本 之前传输的数据了.</p>
+<p><img src="https://cloud.githubusercontent.com/assets/265410/16297760/ca859d0a-3964-11e6-9215-fa6a1722c20e.png" alt="Chrome webSocket inspector"></p>
+<p>在模拟器上按 Command+D.会弹出调试选项.真机调试的时候摇一摇也会出现</p>
+<p><img src="https://cloud.githubusercontent.com/assets/265410/16298920/39de43e6-396a-11e6-8f7a-1e19ad81513d.png" alt="React Native’s on-screen Developer menu"></p>
+<p>当你点击Debug in Chrome 的时候,客户端会发起一个请求 <a href="http://localhost:8081/launch-chrome-devtools" target="_blank" rel="noopener">http://localhost:8081/launch-chrome-devtools</a>.然后Packager会接到这个请求,然后通过 <a href="https://github.com/sindresorhus/opn" target="_blank" rel="noopener">opn</a>执行两个操作.</p>
+<p>第一: 打开Chrome 的一个tab, 第二: 让这个tab打开URL <a href="http://localhost:8081/debugger-ui" target="_blank" rel="noopener">http://localhost:8081/debugger-ui</a></p>
+<p><img src="https://cloud.githubusercontent.com/assets/265410/16299385/a19bdc76-396c-11e6-8c46-30a4d4a3d4ae.png" alt="Debug in Chrome process"></p>
+<h3 id="Step-4-Debugger-ui-html-and-Device-establish-a-connection"><a href="#Step-4-Debugger-ui-html-and-Device-establish-a-connection" class="headerlink" title="Step 4: Debugger-ui.html and Device establish a connection"></a>Step 4: Debugger-ui.html and Device establish a connection</h3><p>现在我们有了一个Chrome Tab,url 是 <a href="http://localhost:8081/debugger-ui.这个页面的静态文件是debugger-ui.html.这个网页会有一个请求里通过" target="_blank" rel="noopener">http://localhost:8081/debugger-ui.这个页面的静态文件是debugger-ui.html.这个网页会有一个请求里通过</a> websocket 和 Packager 保持通讯.</p>
+<script src="//gist.github.com/47fd28ec51037026ae4364cdcf633cbb.js?file=debugger.html.js"></script>
+<p><a href="https://gist.github.com/mactive/47fd28ec51037026ae4364cdcf633cbb" target="_blank" rel="noopener">https://gist.github.com/mactive/47fd28ec51037026ae4364cdcf633cbb</a></p>
+<p>你的App会发送3个WebSocket ping到你的Chrome. 如果Chrome反馈给你 expectedId/sessionId,那么链接将会马上建立.否则设备会抛出一个红屏”Runtime is not ready”.相信做过React Native 开发的对这个红屏不会陌生.一般 Command+R 一下就可以解决.你的App和浏览器之前的交互中间都会经过 NodeJSServer.因为http和ws服务都是他运行的.</p>
+<h3 id="Step-5-Execute-Application-Script"><a href="#Step-5-Execute-Application-Script" class="headerlink" title="Step 5: Execute Application Script"></a>Step 5: Execute Application Script</h3><p>链接建立之后.App将会发送 WebSocket 消息到浏览器,去加载 JavaScript code.</p>
+<script src="//gist.github.com/3cb2e2c53c3b9edf48a0793dae3c82cf.js?file=RCTWebSocketExecutor.m"></script>
+<p><a href="https://gist.github.com/mactive/3cb2e2c53c3b9edf48a0793dae3c82cf" target="_blank" rel="noopener">https://gist.github.com/mactive/3cb2e2c53c3b9edf48a0793dae3c82cf</a></p>
+<p>发送的这个消息非常有意思,发送的时候回注入一个字典.字典中有很多 module/method/id 的映射关系.这里的module/method 就对应RCTModule 和 RCTMethod. 这个字典在chrome中也有体现(下图).一个真实项目中的字典可以参见附录A</p>
+<p>这个启动消息被运行在Chrome的debugger-ui接受到.消息被插接之后放入Chrome的window对象的“__fbBatchedBridgeConfig”属性中.</p>
+<p><img src="https://cloud.githubusercontent.com/assets/265410/16288993/0aa47d02-3924-11e6-9f01-b56487ca39f6.png" alt="chrome 中的 window.__fbBatchedBridgeConfig"></p>
+<script src="//gist.github.com/c17a2dca25b3711e32c713a9f0006e9b.js?file=debuggerWorker.js"></script>
+<p><a href="https://gist.github.com/mactive/c17a2dca25b3711e32c713a9f0006e9b" target="_blank" rel="noopener">https://gist.github.com/mactive/c17a2dca25b3711e32c713a9f0006e9b</a></p>
+<p>当Chrome的window对象更新完之后.浏览器会加载 bundlejs.<br>然后debuggerWorker 会吧bundlejs+sourcemap 再还原成一个一个的文件供我们debug,在chrome中可以用 Command+P 来定位文件</p>
+<ul>
+<li>bundlejs 后的文件: <a href="http://localhost:8081/index.ios.bundle" target="_blank" rel="noopener">http://localhost:8081/index.ios.bundle</a></li>
+<li>sourcemap:  <a href="http://localhost:8081/index.ios.map?platform=ios&amp;dev=true" target="_blank" rel="noopener">http://localhost:8081/index.ios.map?platform=ios&amp;dev=true</a></li>
+</ul>
+<p><img src="https://cloud.githubusercontent.com/assets/265410/16288980/e6812830-3923-11e6-93ed-b5e34a5f95d2.png" alt="debuggerWorker sourcemap"></p>
+<p><img src="https://cloud.githubusercontent.com/assets/265410/16300546/0ce516cc-3973-11e6-965b-64fc3dc320b0.png" alt="Execute flow"></p>
+<p>从上图可以看出,App和Chrome之间的交互离不开Packager,最后Chrome中的网页会告知executeApplicationScript webSocket消息已经发出</p>
+<h3 id="Step-6-Run"><a href="#Step-6-Run" class="headerlink" title="Step 6: Run"></a>Step 6: Run</h3><p>当 executeApplicationScript 被设备成功接受到之后.App就会重新加载js,呈现给我们.感觉Chrome和App之间通过WebSocket通信,屌屌的. 至此你可以在Chrome像调试网页的JS一样调试ReactNative的js了.不过请注意很多第三方node_module的东西无法console出来.就算是在下断点的时候.比如lodash,具体原因不清.</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>令人值得称道的一点是, React Native js在Chrome中的运行方式和 React Native js在设备上 JavaScriptCore 的运行方式很像.都是有个 Module和method的巨大的映射表.</p>
+<p>例如 window.__fbBatchedBridgeConfig 在设备上也有类似的mapping.这个相似点很棒.这给我们提供可一种观察JavaScriptCore的方案.</p>
+<p>希望本文能够帮你更好的理解 React Native, 并写出更好的应用.</p>
+<h2 id="附录A"><a href="#附录A" class="headerlink" title="附录A"></a>附录A</h2><script src="//gist.github.com/1b90cf35e473f438f91a.js?file=message.inject.__fbBatchedBridgeConfig.json"></script>
+<p><a href="https://gist.github.com/sghiassy/1b90cf35e473f438f91a#file-message-inject-__fbbatchedbridgeconfig-json" target="_blank" rel="noopener">https://gist.github.com/sghiassy/1b90cf35e473f438f91a#file-message-inject-__fbbatchedbridgeconfig-json</a></p>
+<p>接下来会继续翻译一下这个作者的其他文章,以及更多的原理方面的文章.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ReactNative/" rel="tag">#ReactNative</a>
+          
+            <a href="/tags/Debugging/" rel="tag">#Debugging</a>
+          
+            <a href="/tags/Dive/" rel="tag">#Dive</a>
+          
+            <a href="/tags/翻译/" rel="tag">#翻译</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/19/shadowsocks_proxychainsNG_iterms2/" rel="next" title="ShadowSocks+ProxyChains-NG 实现终端(iTerm2)下代理">
+                <i class="fa fa-chevron-left"></i> ShadowSocks+ProxyChains-NG 实现终端(iTerm2)下代理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/13/ReactNative-SourceCode-Networking/" rel="prev" title="ReactNative SourceCode Networking">
+                ReactNative SourceCode Networking <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/23/ReactNative-Dive-into-Debugging/" data-title="深入理解 React Native Debugging" data-content data-url="http://mactive.github.io/2016/06/23/ReactNative-Dive-into-Debugging/">
+  <div class="ds-share-inline">
+    <ul class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/23/ReactNative-Dive-into-Debugging/" data-title="深入理解 React Native Debugging" data-url="http://mactive.github.io/2016/06/23/ReactNative-Dive-into-Debugging/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://photo.yupoo.com/mactive/G1GRBPTB/medish.jpg" alt="Mac Meng">
+          <p class="site-author-name" itemprop="name">Mac Meng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mactive" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/moodomac" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1217609444" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/moodomac" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/meng-qian" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#深入理解"><span class="nav-number">1.</span> <span class="nav-text">深入理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#那么究竟在-Debugging-时发生了什么"><span class="nav-number">2.</span> <span class="nav-text">那么究竟在 Debugging 时发生了什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-1-Start-Packager"><span class="nav-number">2.1.</span> <span class="nav-text">Step 1: Start Packager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-Run-React-Native-App-in-Simulator"><span class="nav-number">2.2.</span> <span class="nav-text">Step 2: Run React Native App in Simulator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3-Turn-on-Debugging-Mode"><span class="nav-number">2.3.</span> <span class="nav-text">Step 3: Turn on Debugging Mode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-4-Debugger-ui-html-and-Device-establish-a-connection"><span class="nav-number">2.4.</span> <span class="nav-text">Step 4: Debugger-ui.html and Device establish a connection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-5-Execute-Application-Script"><span class="nav-number">2.5.</span> <span class="nav-text">Step 5: Execute Application Script</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-6-Run"><span class="nav-number">2.6.</span> <span class="nav-text">Step 6: Run</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">3.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附录A"><span class="nav-number">4.</span> <span class="nav-text">附录A</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mac Meng</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mactive-blog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

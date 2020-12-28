@@ -1,0 +1,965 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="workflow,meituan,management,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mac Meng's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="一句话经验说实话,这个管理风格并不明显, 不算敏捷, 甚至有些繁琐, 但是却是风险最低的. 在多方(UI,UE,RD,PM,QA,业务) 合作的过程中这样协作方式还是能保障大家则责权清楚(到底是谁的锅),还是很有必要的.">
+<meta name="keywords" content="workflow,meituan,management">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我厂项目开发流程">
+<meta property="og:url" content="http://mactive.github.io/2017/07/21/meituan-workflow/index.html">
+<meta property="og:site_name" content="Mac Meng&#39;s Blog">
+<meta property="og:description" content="一句话经验说实话,这个管理风格并不明显, 不算敏捷, 甚至有些繁琐, 但是却是风险最低的. 在多方(UI,UE,RD,PM,QA,业务) 合作的过程中这样协作方式还是能保障大家则责权清楚(到底是谁的锅),还是很有必要的.">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://mactive.github.io/images/workflow_meituan_1.png">
+<meta property="og:updated_time" content="2020-12-28T00:27:05.586Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我厂项目开发流程">
+<meta name="twitter:description" content="一句话经验说实话,这个管理风格并不明显, 不算敏捷, 甚至有些繁琐, 但是却是风险最低的. 在多方(UI,UE,RD,PM,QA,业务) 合作的过程中这样协作方式还是能保障大家则责权清楚(到底是谁的锅),还是很有必要的.">
+<meta name="twitter:image" content="http://mactive.github.io/images/workflow_meituan_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 4951855,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 我厂项目开发流程 | Mac Meng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Mac Meng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                我厂项目开发流程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-07-21T09:04:44+08:00" content="2017-07-21">
+              2017-07-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/07/21/meituan-workflow/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/21/meituan-workflow/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>一句话经验</strong><br>说实话,这个管理风格并不明显, 不算敏捷, 甚至有些繁琐, 但是却是风险最低的. 在多方(UI,UE,RD,PM,QA,业务) 合作的过程中这样协作方式还是能保障大家则责权清楚(到底是谁的锅),还是很有必要的. </p>
+<a id="more"></a>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>下面的表格,会对角色, 动作, 互相的依赖 做一个梳理</p>
+<ul>
+<li>UI: User Interface 美工</li>
+<li>UE: User Experience 交互</li>
+<li>RD: Research Development 研发</li>
+<li>PM: Production Manager 产品</li>
+<li>QA: Quality Assurance 测试</li>
+<li>BD: Business Development 业务</li>
+</ul>
+<h2 id="表1-时序动作图"><a href="#表1-时序动作图" class="headerlink" title="表1 时序动作图"></a>表1 时序动作图</h2><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>角色</th>
+<th>动作</th>
+<th>指标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>酝酿期</td>
+<td>PM</td>
+<td>根据需求理解PRD草稿</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>业务</td>
+<td>业务需求</td>
+<td>有些需求没有业务参与, 直接来自产品或CEO</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>评估期</td>
+<td>PM</td>
+<td>输出PRD文档, 根据评估意见调整修改PRD</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>RD</td>
+<td>评估PRD, 技术实现评估 技术预演</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>UE</td>
+<td>根据PRD给出UE交互图, 参考原有UE规范</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>UI</td>
+<td>在RD评估完之后, 制作</td>
+<td></td>
+</tr>
+<tr>
+<td>启动期</td>
+<td>PM</td>
+<td>产品的使用预期, 如果通过埋点证明预期</td>
+<td>DAU,人力节省等</td>
+</tr>
+<tr>
+<td></td>
+<td>RD1</td>
+<td>给出人日估算(根据项目复杂度和探索性预留10%-20%的弹性时间)</td>
+<td>一定要考虑UI和UE才能给出人日评估. 探索性: 新项目, 新的知识点, 新技术方案</td>
+</tr>
+<tr>
+<td></td>
+<td>RD2</td>
+<td>和研发各方确认后给出排期, 排期包括 开发,联调,提测,上线时间点</td>
+<td>复杂度: 协作要求高的地方. 实现难度高的地方</td>
+</tr>
+<tr>
+<td></td>
+<td>业务</td>
+<td>启动会</td>
+<td>阐述开发目的, 给大家画饼</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>开发期</td>
+<td>RD后端</td>
+<td>和前端一起约定接口文档和数据类型</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>RD前端</td>
+<td>搭建项目, mock数据, 组件化开发</td>
+<td>原则: 先难后易, 先主干后细节</td>
+</tr>
+<tr>
+<td></td>
+<td>PM</td>
+<td>对有争议实现细节给出可执行方案</td>
+<td>明确产品的开发目的</td>
+</tr>
+<tr>
+<td></td>
+<td>RD</td>
+<td>负责的系统需要有设计文档, 复杂的项目需要有结构文档</td>
+<td></td>
+</tr>
+<tr>
+<td>联调</td>
+<td>RD</td>
+<td>部署dev环境</td>
+<td>前后端,或依赖端之间联调</td>
+</tr>
+<tr>
+<td></td>
+<td>QA</td>
+<td>提出测试用例并组织大家评估</td>
+<td>测试用例基于PRD, 是可以修改的. 如果有争议,RD可以找产品最终决定, 要带上QA一起讨论</td>
+</tr>
+<tr>
+<td></td>
+<td>RD</td>
+<td>根据测试用例,自测通过</td>
+<td>并且冒烟通过</td>
+</tr>
+<tr>
+<td>提测</td>
+<td>RD</td>
+<td>主R发提测邮件</td>
+<td>注明测试地址和测试方法</td>
+</tr>
+<tr>
+<td></td>
+<td>QA</td>
+<td>部署test/beta环境, 并测试</td>
+<td>有时候环境部署是RD来完成的,或者协助的</td>
+</tr>
+<tr>
+<td></td>
+<td>PM</td>
+<td>产品验收</td>
+<td>对比产品方案</td>
+</tr>
+<tr>
+<td></td>
+<td>UI</td>
+<td>UI验收</td>
+<td>对比实现效果</td>
+</tr>
+<tr>
+<td></td>
+<td>QA</td>
+<td>二次验收</td>
+<td>对修复的bug进行验收, flow操作</td>
+</tr>
+<tr>
+<td></td>
+<td>RD</td>
+<td>根据QA提出的bug进行修改, 如果是产品方案的瑕疵可以将bug转给产品</td>
+<td>如果有争议如要产品介入, 最好每天碰一下</td>
+</tr>
+<tr>
+<td></td>
+<td>RD</td>
+<td>合并分支, review代码</td>
+<td></td>
+</tr>
+<tr>
+<td>上线</td>
+<td>RD</td>
+<td>发布stage环境测试</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>QA</td>
+<td>二次回归</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>RD</td>
+<td>发布production环境</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>PM&amp;QA</td>
+<td>线上回归</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>灰度上线</td>
+<td>hotfix</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>正式上线</td>
+<td>全量</td>
+<td></td>
+</tr>
+<tr>
+<td>总结期</td>
+<td>PM</td>
+<td>效果评估</td>
+<td>如果效果不好, RD下次再排期的时候可以找PM多理论一下</td>
+</tr>
+<tr>
+<td></td>
+<td>RD</td>
+<td>总结评估和开发过程中的碰到的问题和坑, 下一期塞进去些技术需求</td>
+<td>整理wiki和分享</td>
+</tr>
+<tr>
+<td></td>
+<td>RD</td>
+<td>主R组织大家讨论管理和协作方面的问题</td>
+<td>整理wiki和分享</td>
+</tr>
+</tbody>
+</table>
+<h2 id="表1-1-排期表"><a href="#表1-1-排期表" class="headerlink" title="表1.1 排期表"></a>表1.1 排期表</h2><p><img src="/images/workflow_meituan_1.png" alt></p>
+<h2 id="表2-依赖关系路径"><a href="#表2-依赖关系路径" class="headerlink" title="表2 依赖关系路径"></a>表2 依赖关系路径</h2><h3 id="估时-amp-排期"><a href="#估时-amp-排期" class="headerlink" title="估时 &amp; 排期"></a>估时 &amp; 排期</h3><p><code>PRD清晰且明确</code> -&gt; <code>UI按照PRD来</code> -&gt; <code>UE过程明确</code> -&gt; <code>RD预演了技术</code> -&gt; <code>没有并行项目干扰</code> -&gt; <code>给出估时</code> -&gt; <code>各方确认时间点</code> -&gt; <code>确认排期</code></p>
+<h3 id="提测"><a href="#提测" class="headerlink" title="提测"></a>提测</h3><p><code>前端开发完毕</code> -&gt; <code>前端之间联调完毕</code> -&gt; <code>后端开发完毕</code> -&gt; <code>后端之间API和服务化开发完毕</code> -&gt; <code>前/后端联调完毕</code> -&gt; <code>测试环境部署完毕</code> -&gt; <code>确认了测试用例</code> -&gt; <code>自测完成</code> -&gt; <code>冒烟完成</code> -&gt;  <code>提测</code> </p>
+<h2 id="表3-异常处理"><a href="#表3-异常处理" class="headerlink" title="表3 异常处理"></a>表3 异常处理</h2><table>
+<thead>
+<tr>
+<th>异常</th>
+<th>处理</th>
+<th>归类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prd改动</td>
+<td>周知RD和QA, RD默默的掏出一把菜刀来</td>
+<td>开发过程中</td>
+</tr>
+<tr>
+<td>时间不够用</td>
+<td>申请延期或者找空余的人力来补充</td>
+<td>开发过程中</td>
+</tr>
+<tr>
+<td>妈的方案想简单了</td>
+<td>换个方案,可能不完美但是work</td>
+<td>开发过程中</td>
+</tr>
+<tr>
+<td>环境有问题,有依赖别的开发组</td>
+<td>封闭开发或者加班搞</td>
+<td>提测过程</td>
+</tr>
+<tr>
+<td>某个点实现和PRD有严重出入</td>
+<td>PRD可能模棱两可, 其实最后就看谁强势,谁更好被说服</td>
+<td>提测过程</td>
+</tr>
+</tbody>
+</table>
+<h2 id="思考所谓管理"><a href="#思考所谓管理" class="headerlink" title="思考所谓管理"></a>思考所谓管理</h2><p>###管理的Loop</p>
+<p><code>总结</code> -&gt; <code>形成SOP</code> -&gt; <code>推动执行</code> -&gt; <code>收集问题</code> -&gt; <code>改进</code> -&gt; <code>总结</code></p>
+<p>简单说就是讲事情分成若干个环节, 制定每个环节的标注, 提前告知每个环节可能出现的风险.</p>
+<p>在一堆不(各)同(怀)角(鬼)色(胎)的人之间达成共识, 处理纠纷. 最后得出一个妥协后的产品.<br>有了标准的生命周期之后, 可以推出简化版的SOP和复杂版的SOP供大家执行.</p>
+<p>跟开发一个框架Framework差不多, 在性能和成本之间不停的取舍. 为今后的使用总结经验</p>
+<p><strong>SOP</strong>, Standard Operating Procedures, 标准作业程序</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/workflow/" rel="tag">#workflow</a>
+          
+            <a href="/tags/meituan/" rel="tag">#meituan</a>
+          
+            <a href="/tags/management/" rel="tag">#management</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/17/life-dog-dream/" rel="next" title="人生如狗, 梦想彼岸">
+                <i class="fa fa-chevron-left"></i> 人生如狗, 梦想彼岸
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/07/people_management/" rel="prev" title="小公司 V.S. 大公司">
+                小公司 V.S. 大公司 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/07/21/meituan-workflow/" data-title="我厂项目开发流程" data-content data-url="http://mactive.github.io/2017/07/21/meituan-workflow/">
+  <div class="ds-share-inline">
+    <ul class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/07/21/meituan-workflow/" data-title="我厂项目开发流程" data-url="http://mactive.github.io/2017/07/21/meituan-workflow/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://photo.yupoo.com/mactive/G1GRBPTB/medish.jpg" alt="Mac Meng">
+          <p class="site-author-name" itemprop="name">Mac Meng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mactive" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/moodomac" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1217609444" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/moodomac" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/meng-qian" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表1-时序动作图"><span class="nav-number">2.</span> <span class="nav-text">表1 时序动作图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表1-1-排期表"><span class="nav-number">3.</span> <span class="nav-text">表1.1 排期表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表2-依赖关系路径"><span class="nav-number">4.</span> <span class="nav-text">表2 依赖关系路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#估时-amp-排期"><span class="nav-number">4.1.</span> <span class="nav-text">估时 &amp; 排期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提测"><span class="nav-number">4.2.</span> <span class="nav-text">提测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表3-异常处理"><span class="nav-number">5.</span> <span class="nav-text">表3 异常处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思考所谓管理"><span class="nav-number">6.</span> <span class="nav-text">思考所谓管理</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mac Meng</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mactive-blog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

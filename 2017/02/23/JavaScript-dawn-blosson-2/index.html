@@ -1,0 +1,715 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="JavaScript,DawnBlossom,Series,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mac Meng's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="Require.JS 定义和发现机制很多jquery插件的头部都写成了这种样式,这种叫UMD,它支持AMD和CommonJS规范，同时还支持古老的全局模块模式。 关于AMD,CMD,CommonJS及UMD规范可以看这里.require.js和angular自带的使用的是标准的AMD方式. 123456789101112131415(function (factory) &amp;#123;    if">
+<meta name="keywords" content="JavaScript,DawnBlossom,Series">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 朝花夕拾 -- 2 Require.JS 定义和发现机制">
+<meta property="og:url" content="http://mactive.github.io/2017/02/23/JavaScript-dawn-blosson-2/index.html">
+<meta property="og:site_name" content="Mac Meng&#39;s Blog">
+<meta property="og:description" content="Require.JS 定义和发现机制很多jquery插件的头部都写成了这种样式,这种叫UMD,它支持AMD和CommonJS规范，同时还支持古老的全局模块模式。 关于AMD,CMD,CommonJS及UMD规范可以看这里.require.js和angular自带的使用的是标准的AMD方式. 123456789101112131415(function (factory) &amp;#123;    if">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-12-28T00:27:05.583Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript 朝花夕拾 -- 2 Require.JS 定义和发现机制">
+<meta name="twitter:description" content="Require.JS 定义和发现机制很多jquery插件的头部都写成了这种样式,这种叫UMD,它支持AMD和CommonJS规范，同时还支持古老的全局模块模式。 关于AMD,CMD,CommonJS及UMD规范可以看这里.require.js和angular自带的使用的是标准的AMD方式. 123456789101112131415(function (factory) &amp;#123;    if">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 4951855,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JavaScript 朝花夕拾 -- 2 Require.JS 定义和发现机制 | Mac Meng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Mac Meng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript 朝花夕拾 -- 2 Require.JS 定义和发现机制
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-02-23T10:40:35+08:00" content="2017-02-23">
+              2017-02-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/23/JavaScript-dawn-blosson-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/23/JavaScript-dawn-blosson-2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Require-JS-定义和发现机制"><a href="#Require-JS-定义和发现机制" class="headerlink" title="Require.JS 定义和发现机制"></a>Require.JS 定义和发现机制</h2><p>很多jquery插件的头部都写成了这种样式,这种叫UMD,它支持AMD和CommonJS规范，同时还支持古老的全局模块模式。</p>
+<p><a href="http://blog.gejiawen.com/2015/11/03/what-is-amd-cmd-commonjs-umd/" target="_blank" rel="noopener">关于AMD,CMD,CommonJS及UMD规范</a>可以看这里.require.js和angular自带的使用的是标准的AMD方式.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">factory</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> exports === <span class="string">"object"</span> &amp;&amp; exports &amp;&amp;</span><br><span class="line">        <span class="keyword">typeof</span> <span class="built_in">module</span> === <span class="string">"object"</span> &amp;&amp; <span class="built_in">module</span> &amp;&amp; <span class="built_in">module</span>.exports === exports) &#123;</span><br><span class="line">        <span class="comment">// Browserify. Attach to jQuery module.</span></span><br><span class="line">        factory(<span class="built_in">require</span>(<span class="string">"jquery"</span>));</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> define === <span class="string">'function'</span> &amp;&amp; define.amd) &#123;</span><br><span class="line">		<span class="comment">// AMD. Register as an anonymous module.</span></span><br><span class="line">		define([<span class="string">'jquery'</span>], factory);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Browser globals</span></span><br><span class="line">		factory(jQuery);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;(<span class="function"><span class="keyword">function</span> (<span class="params">$</span>) </span>&#123;</span><br><span class="line">	<span class="comment">//插件主体 一堆堆function</span></span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+<p>moment.js 的头部则写成了这样,和上面都是UMD方案,都是为了让开发者在node端,浏览器端,浏览器+loader的情况下都可以使用到自己的模块.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">global, factory</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">typeof</span> exports === <span class="string">'object'</span> &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">module</span> !== <span class="string">'undefined'</span> ? <span class="built_in">module</span>.exports = factory() :</span><br><span class="line">    <span class="keyword">typeof</span> define === <span class="string">'function'</span> &amp;&amp; define.amd ? define(factory) :</span><br><span class="line">    global.moment = factory()</span><br><span class="line">&#125;(<span class="keyword">this</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="string">'use strict'</span>;</span><br><span class="line">	<span class="comment">// function 1</span></span><br><span class="line">	<span class="comment">// …</span></span><br><span class="line">	<span class="comment">// function n</span></span><br><span class="line">	<span class="keyword">return</span> moment;</span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+<h2 id="因为"><a href="#因为" class="headerlink" title="因为"></a>因为</h2><ol>
+<li>如果都是用define定义的模块,那么不用在shim</li>
+<li>如果不是用define写的模块,又有依赖,比如 jquery.datepair 依赖 jquery,需要写在shim中.</li>
+</ol>
+<p><strong>shim的英文是垫片的意思,有类似转接环的概念.将非AMD方式定义的组件转义过来</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>.config(&#123;</span><br><span class="line">	shim: &#123;</span><br><span class="line">    <span class="string">'jquery.datepair'</span>:&#123;</span><br><span class="line">      <span class="string">'deps'</span>: [’jquery’,<span class="string">'datepair’] //需要写明依赖</span></span><br><span class="line"><span class="string">    &#125;,</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;);</span></span><br></pre></td></tr></table></figure>
+<h3 id="加载非规范的模块"><a href="#加载非规范的模块" class="headerlink" title="加载非规范的模块"></a>加载非规范的模块</h3><p>理论上，require.js加载的模块，必须是按照AMD规范、用define()函数定义的模块。但是实际上，虽然已经有一部分流行的函数库（比如jQuery）符合AMD规范，更多的库并不符合。<br>那么，require.js是否能够加载非规范的模块呢？<br>回答是可以的。</p>
+<p>这样的模块在用require()加载之前，要先用require.config()方法的shim属性专门用来配置不兼容的模块。<br>举例来说，underscore和backbone这两个库，都没有采用AMD规范编写。如果要加载它们的话，必须先定义它们的特征。</p>
+<p>deps[] 是他的的依赖,dependencies 的意思<br>shim的英文是垫片的意思,有类似转接环的概念.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>.config(&#123;</span><br><span class="line">	shim: &#123;</span><br><span class="line">		<span class="string">'underscore'</span>:&#123;</span><br><span class="line">			exports: <span class="string">'_'</span></span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="string">'backbone'</span>: &#123;</span><br><span class="line">			deps: [<span class="string">'underscore'</span>, <span class="string">'jquery'</span>],</span><br><span class="line">			exports: <span class="string">'Backbone'</span></span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="string">'jquery.scroll'</span>: &#123;</span><br><span class="line">		　　deps: [<span class="string">'jquery'</span>],</span><br><span class="line">		　　exports: <span class="string">'jQuery.fn.scroll'</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>require.js 几个大概念</p>
+<ol>
+<li>config() 配置依赖</li>
+<li>define() 定义模块</li>
+<li>require() 使用模块</li>
+</ol>
+<p>define 一般自己用, 先声明配置,然后下面使用配置. 而且define一个模块的时候也可以引入依赖包,可以返回对象或者funtion,也可以给模块define一个名字</p>
+<ul>
+<li>Definition Functions with dependencies</li>
+<li>Definition a Module as a Functions or Object (Function 还是 Object 看业务需要,Object有的时候子对象也是function)</li>
+<li>Define a Module with a name (不推荐,因为module name和目录相关)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">define([<span class="string">"my/cart"</span>, <span class="string">"my/inventory"</span>],</span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">cart, inventory</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//return a function to define "foo/title".</span></span><br><span class="line">        <span class="comment">//It gets or sets the window title.</span></span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">title</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> title ? (<span class="built_in">window</span>.title = title) :</span><br><span class="line">                   inventory.storeName + <span class="string">' '</span> + cart.name;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>config一般和require一起用, config 定义好依赖之后, require可以直接使用它, require.js 会帮你加载你需要的依赖.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">requirejs.config(&#123;</span><br><span class="line">    <span class="comment">// 默认目录, require.js 会按相对目录去加载</span></span><br><span class="line">    baseUrl: <span class="string">'js/lib'</span>,</span><br><span class="line">    paths: &#123;</span><br><span class="line">        app: <span class="string">'../app'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Start the main app logic.</span></span><br><span class="line">requirejs([<span class="string">'jquery'</span>, <span class="string">'canvas'</span>, <span class="string">'app/sub'</span>],</span><br><span class="line"><span class="function"><span class="keyword">function</span>   (<span class="params">$,        canvas,   sub</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//jQuery, canvas and the app/sub module are all</span></span><br><span class="line">    <span class="comment">//loaded and can be used here now.</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/DawnBlossom/" rel="tag">#DawnBlossom</a>
+          
+            <a href="/tags/Series/" rel="tag">#Series</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/27/js-regexp-sample-clear/" rel="next" title="JS RegExp 正则表达式-简明使用指南">
+                <i class="fa fa-chevron-left"></i> JS RegExp 正则表达式-简明使用指南
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/04/JavaScript-dawn-blosson-3/" rel="prev" title="JavaScript 朝花夕拾 -- 3 浏览器中JavaScript的好基友">
+                JavaScript 朝花夕拾 -- 3 浏览器中JavaScript的好基友 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/23/JavaScript-dawn-blosson-2/" data-title="JavaScript 朝花夕拾 -- 2 Require.JS 定义和发现机制" data-content data-url="http://mactive.github.io/2017/02/23/JavaScript-dawn-blosson-2/">
+  <div class="ds-share-inline">
+    <ul class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/23/JavaScript-dawn-blosson-2/" data-title="JavaScript 朝花夕拾 -- 2 Require.JS 定义和发现机制" data-url="http://mactive.github.io/2017/02/23/JavaScript-dawn-blosson-2/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://photo.yupoo.com/mactive/G1GRBPTB/medish.jpg" alt="Mac Meng">
+          <p class="site-author-name" itemprop="name">Mac Meng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mactive" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/moodomac" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1217609444" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/moodomac" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/meng-qian" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Require-JS-定义和发现机制"><span class="nav-number">1.</span> <span class="nav-text">Require.JS 定义和发现机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#因为"><span class="nav-number">2.</span> <span class="nav-text">因为</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加载非规范的模块"><span class="nav-number">2.1.</span> <span class="nav-text">加载非规范的模块</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mac Meng</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mactive-blog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

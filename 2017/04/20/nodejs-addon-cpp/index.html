@@ -1,0 +1,724 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="javascript,NodeJS,C++,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mac Meng's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="先来个简单的公式 NodeJS = Foundation + V8 Engine + JS API如果我们仔细看一下Node的源码,其中有23.8%的C++,5.6%的C,还有64.5%的JS.Foundation中包含几大核心, File(文件操作),Network(网络),Event(事件驱动),Stream(流的概念),Module(模块系统). 这几块无一不是C/C++实现的.JS的解释器">
+<meta name="keywords" content="javascript,NodeJS,C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS 和 C++ -- 低(前)端程序员为什么要学C++">
+<meta property="og:url" content="http://mactive.github.io/2017/04/20/nodejs-addon-cpp/index.html">
+<meta property="og:site_name" content="Mac Meng&#39;s Blog">
+<meta property="og:description" content="先来个简单的公式 NodeJS = Foundation + V8 Engine + JS API如果我们仔细看一下Node的源码,其中有23.8%的C++,5.6%的C,还有64.5%的JS.Foundation中包含几大核心, File(文件操作),Network(网络),Event(事件驱动),Stream(流的概念),Module(模块系统). 这几块无一不是C/C++实现的.JS的解释器">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://mactive.github.io/images/node_addon_1.png">
+<meta property="og:image" content="http://mactive.github.io/images/node_addon_2.png">
+<meta property="og:updated_time" content="2020-12-28T00:27:05.586Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS 和 C++ -- 低(前)端程序员为什么要学C++">
+<meta name="twitter:description" content="先来个简单的公式 NodeJS = Foundation + V8 Engine + JS API如果我们仔细看一下Node的源码,其中有23.8%的C++,5.6%的C,还有64.5%的JS.Foundation中包含几大核心, File(文件操作),Network(网络),Event(事件驱动),Stream(流的概念),Module(模块系统). 这几块无一不是C/C++实现的.JS的解释器">
+<meta name="twitter:image" content="http://mactive.github.io/images/node_addon_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 4951855,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> NodeJS 和 C++ -- 低(前)端程序员为什么要学C++ | Mac Meng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Mac Meng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                NodeJS 和 C++ -- 低(前)端程序员为什么要学C++
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-04-20T08:59:00+08:00" content="2017-04-20">
+              2017-04-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/04/20/nodejs-addon-cpp/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/20/nodejs-addon-cpp/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>先来个简单的公式</p>
+<h2 id="NodeJS-Foundation-V8-Engine-JS-API"><a href="#NodeJS-Foundation-V8-Engine-JS-API" class="headerlink" title="NodeJS = Foundation + V8 Engine + JS API"></a>NodeJS = Foundation + V8 Engine + JS API</h2><p>如果我们仔细看一下Node的源码,其中有23.8%的C++,5.6%的C,还有64.5%的JS.<br><code>Foundation</code>中包含几大核心, File(文件操作),Network(网络),Event(事件驱动),Stream(流的概念),Module(模块系统). 这几块无一不是C/C++实现的.JS的解释器V8Engine更是C/C++实现的,别忘了Chrome可能是世界上最大的C/C++项目了.</p>
+<p><code>Foundtion</code>既然是C++实现的,那么在各个操作系统上的实现肯定不一样了.你可以想想一下读取Linux上的文件和Win10上的文件的C++代码肯定不一样, 而且你的C++代码需要调用操作系统的C++API才能实现功能. 据我所知,大部分的操作系统都是用C/C++写成的.</p>
+<p>JS API可能是通用的,因为Node为我们实现了一套C-&gt;JS的bridge,这样Node开发组的同学就可以用JS做一些API的封装和抽象.而社区里写npm package的同学可以只使用JS API 就可以做一些工具包了.  因为<code>Foundation</code> 和 <code>V8Engine</code> 已经接受了多年业界的考验. 在此感谢Google和社区默默贡献的C/C++程序员.</p>
+<a id="more"></a>
+<p>同时Node开放了他们自己使用的Bridge,可以让社区也写一些<a href="https://nodejs.org/api/addons.html" target="_blank" rel="noopener">C/C++ Addon</a>.提供了类似<code>NODE_SET_METHOD</code>,<code>NODE_MODULE</code>的C宏供开发的时候调用,官方给了一些实例教你如何在JS和C++之间传递Object和 Funciton,构造Function Factory,以及基本的数值转换.是不是感觉个ReactNative提供的Bridge非常的类似.</p>
+<blockquote>
+<p>可能有同学有疑问,为什么有的时候NodeJS需要C++, 或者你是不是经常碰到<code>npm i</code>的时候特别慢.或者卡在node-gyp的什么地方. npm i 慢有两个原因一个是网速,一个是你在用你的电脑build C++代码.为啥要build C++,还是因为慢,你没能下载下来node-pre-gyp编译好的能在你系统上跑的C++二进制包(因为GFW),那就需要你本地打包. 可能有同学问为啥我需要C++呢, 比如因为存储,用到sqlite3,因为图形处理用到ffmpeg等等. </p>
+</blockquote>
+<p>下面我们讲讲node-gyp和他引出来的东西</p>
+<h2 id="node-gyp-和-electron"><a href="#node-gyp-和-electron" class="headerlink" title="node-gyp 和 electron"></a>node-gyp 和 electron</h2><p><img src="/images/node_addon_1.png" alt></p>
+<p>electron其实也是一个Framework,他把你开发桌面应用的可能用到东西帮你做好了,比如Menu(菜单),Window(窗体)等等.当然也需要社区帮你抹平各个操作系统上的差异.</p>
+<ul>
+<li>拓展了sandbox(更多的系统操作的权限)</li>
+<li>使得NodeJS不止做服务器端应用.而且可以做桌面应用.</li>
+<li>Make JS great again with standing on the C++’s shoulder</li>
+</ul>
+<p>nw.js 是做这件事的先驱,不过现在不再继续维护,他两个可以说是一脉相承,都有人使用.</p>
+<h2 id="C-或者其他编译型语言的过程"><a href="#C-或者其他编译型语言的过程" class="headerlink" title="C++ 或者其他编译型语言的过程"></a>C++ 或者其他编译型语言的过程</h2><p><img src="/images/node_addon_2.png" alt></p>
+<p>静态语言都离不开这些步骤.在Compile的时候可能会因为你自己写的语法而报错.在Link的时候经常会找不到相应的库而不能执行下去. Debug和run的区别无非就是加入Symbol,让编译器在报错的时候能告诉你错误出在了哪一行,他的上下文之类的,方便你debug.你最后Release的版本必然是不包含symbol的. 一般一个可执行的Binary文件都会配一个symbol文件. 类似xx.min.js + xx.min.js.map</p>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ul>
+<li>chrome 50之后不再支持winXP, 应该跟XP上的C++执行器有关系.因为微软可能已经不再维护以WindowNT5为版本的winXP了.</li>
+<li>如何你要做WinXP的客户端(比如我厂),那么你只能使用 nw.js &lt;= 0.14.7的版本</li>
+<li>$: file addon.node 可以再mac上查看文件的类型,二进制文件可以知道软件和硬件架构</li>
+</ul>
+<h2 id="github"><a href="#github" class="headerlink" title="github"></a>github</h2><ul>
+<li>这个文章配合的<a href="https://github.com/mactive/my_node_addon" target="_blank" rel="noopener">github</a></li>
+<li>结合使用 nan 和 binding 的 addon <a href="https://github.com/nodejs/node-addon-examples" target="_blank" rel="noopener">github</a></li>
+<li><a href="https://github.com/nodejs/node" target="_blank" rel="noopener">NodeJS</a></li>
+<li><a href="https://github.com/nodejs/node-gyp" target="_blank" rel="noopener">node-gyp</a></li>
+</ul>
+<h2 id="推荐一些C-的学习资源"><a href="#推荐一些C-的学习资源" class="headerlink" title="推荐一些C++的学习资源"></a>推荐一些C++的学习资源</h2><ul>
+<li><a href="https://v8docs.nodesource.com/node-7.4/" target="_blank" rel="noopener">V8 文档</a> 配合 <a href="https://nodejs.org/api/addons.html" target="_blank" rel="noopener">C/C++ Addon</a> 来看</li>
+<li><a href="http://www.runoob.com/cplusplus/cpp-tutorial.html" target="_blank" rel="noopener">C++中文菜鸟教程</a></li>
+<li><a href="http://www.learncpp.com/" target="_blank" rel="noopener">www.learncpp.com</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag">#javascript</a>
+          
+            <a href="/tags/NodeJS/" rel="tag">#NodeJS</a>
+          
+            <a href="/tags/C/" rel="tag">#C++</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/24/vue-component-1/" rel="next" title="Vue 组件开发心得(1)">
+                <i class="fa fa-chevron-left"></i> Vue 组件开发心得(1)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/17/life-dog-dream/" rel="prev" title="人生如狗, 梦想彼岸">
+                人生如狗, 梦想彼岸 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/04/20/nodejs-addon-cpp/" data-title="NodeJS 和 C++ -- 低(前)端程序员为什么要学C++" data-content data-url="http://mactive.github.io/2017/04/20/nodejs-addon-cpp/">
+  <div class="ds-share-inline">
+    <ul class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/04/20/nodejs-addon-cpp/" data-title="NodeJS 和 C++ -- 低(前)端程序员为什么要学C++" data-url="http://mactive.github.io/2017/04/20/nodejs-addon-cpp/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://photo.yupoo.com/mactive/G1GRBPTB/medish.jpg" alt="Mac Meng">
+          <p class="site-author-name" itemprop="name">Mac Meng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mactive" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/moodomac" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1217609444" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/moodomac" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/meng-qian" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NodeJS-Foundation-V8-Engine-JS-API"><span class="nav-number">1.</span> <span class="nav-text">NodeJS = Foundation + V8 Engine + JS API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#node-gyp-和-electron"><span class="nav-number">2.</span> <span class="nav-text">node-gyp 和 electron</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-或者其他编译型语言的过程"><span class="nav-number">3.</span> <span class="nav-text">C++ 或者其他编译型语言的过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tips"><span class="nav-number">4.</span> <span class="nav-text">Tips</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#github"><span class="nav-number">5.</span> <span class="nav-text">github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐一些C-的学习资源"><span class="nav-number">6.</span> <span class="nav-text">推荐一些C++的学习资源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mac Meng</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mactive-blog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

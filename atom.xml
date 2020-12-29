@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mactive.github.io/"/>
-  <updated>2020-12-28T01:15:12.423Z</updated>
+  <updated>2020-12-29T01:31:06.102Z</updated>
   <id>http://mactive.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>程序员眼中的极限运动</title>
+    <link href="http://mactive.github.io/2020/12/29/engineer_xsport/"/>
+    <id>http://mactive.github.io/2020/12/29/engineer_xsport/</id>
+    <published>2020-12-29T00:01:00.000Z</published>
+    <updated>2020-12-29T01:31:06.102Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="1-我尝试的极限运动"><a href="#1-我尝试的极限运动" class="headerlink" title="1. 我尝试的极限运动"></a>1. 我尝试的极限运动</h2><p>2020年尝试的都是板上运动, 桨板, 滑板和滑雪. 当然我玩的还不比较初级.</p><p>###桨板🏄:<br>2次21公里长距离, 用时3小时多一些.<br>一次13公里海划, 基本是跪着划完的.<br>平时训练强度在 5-10公里之间. 心率120左右</p><h3 id="滑雪⛷"><a href="#滑雪⛷" class="headerlink" title="滑雪⛷:"></a>滑雪⛷:</h3><p>2次崇礼, 3次南山, 最高难度25-30度左右的坡度.<br>双板中下级水平吧, 陡坡缓降不怂, 高速换刃不溜.<br>一次能滑个20公里. 滑行心率140左右</p><h3 id="滑板🛹"><a href="#滑板🛹" class="headerlink" title="滑板🛹:"></a>滑板🛹:</h3><p>周末陪孩子公园溜达, 右转转弯半径5m, 左转7m左右, 坡度10度左右敢下. 可以板上换脚和转身. 没啥心率纯玩.</p><h3 id="身体准备"><a href="#身体准备" class="headerlink" title="身体准备"></a>身体准备</h3><p>板上运动对你的核心力量要求很高, 平时要多联系腰腹和腿部肌肉. 这样可以在板上随时调整重心, 方便做出各种姿势.</p><h3 id="心理准备"><a href="#心理准备" class="headerlink" title="心理准备"></a>心理准备</h3><p>除此之外心理建设也很需要, 在可控范围内要勇敢尝试, 可能在外人开起来像是个疯子. 将高风险事件拆解成小的步骤, 这个要推荐一下 <a href="https://www.bilibili.com/video/BV18J411t7LR" target="_blank" rel="noopener">楚格山里人的视频</a>, 简单易学. 风险拆解和风险控制和软件工程的很多思想非常像. </p><h2 id="2-编程也是一种极限运动"><a href="#2-编程也是一种极限运动" class="headerlink" title="2. 编程也是一种极限运动"></a>2. 编程也是一种极限运动</h2><p>极限运行的有几个让人着迷的地方, 容易带给你极致体验</p><ul><li>速度感: 同样的风景, 换一个速度, 换一个高度去看会完全不同.</li><li>视觉冲击: 在海边看风景, 和从海里看陆地完全不同, 视角非常宏大. 滑雪时山顶的夕阳, 配上纵身一跃简直完美. 编程时的大屏高刷显示器就是爽.</li><li>高心率, 高浓度多巴胺: 人体本身的特质, 类似发动机的高速旋转的嘶吼, 还有机器在编译的性能狂飙和风扇狂转.</li><li>不可控: 在失控的边缘试探, 和结束之后喜悦感. 和软件上线有异曲同工之妙</li></ul><h2 id="3-风险和成本"><a href="#3-风险和成本" class="headerlink" title="3. 风险和成本"></a>3. 风险和成本</h2><p>总体来说, 这种产业化的极限运动, 风险还是很小的. 而且而方便都照顾的周全.<br>你需要的就是准备好你的身体和心态, 玩出自己的特色.</p><p>编程尤其是<code>ML/AI</code>领域也是, 各种教学和实践场地都给你准备好了, 你只需要全情投入, 玩出你的特色来.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;1-我尝试的极限运动&quot;&gt;&lt;a href=&quot;#1-我尝试的极限运动&quot; class=&quot;headerlink&quot; title=&quot;1. 我尝试的极限运动&quot;&gt;&lt;/a&gt;1. 我尝试的极限运动&lt;/h2&gt;&lt;p&gt;2020年尝试的都是板上运动, 桨板, 滑板和滑雪. 当然我玩的还不比较
+      
+    
+    </summary>
+    
+    
+      <category term="life" scheme="http://mactive.github.io/tags/life/"/>
+    
+      <category term="extremesport" scheme="http://mactive.github.io/tags/extremesport/"/>
+    
+  </entry>
   
   <entry>
     <title>2020年终总结</title>
@@ -546,32 +571,6 @@
       <category term="DawnBlossom" scheme="http://mactive.github.io/tags/DawnBlossom/"/>
     
       <category term="Series" scheme="http://mactive.github.io/tags/Series/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ReactNative SourceCode Networking</title>
-    <link href="http://mactive.github.io/2016/07/13/ReactNative-SourceCode-Networking/"/>
-    <id>http://mactive.github.io/2016/07/13/ReactNative-SourceCode-Networking/</id>
-    <published>2016-07-13T07:03:36.000Z</published>
-    <updated>2020-12-28T00:27:05.584Z</updated>
-    
-    <content type="html"><![CDATA[<p>React Native 源码阅读(1):网络</p><h3 id="fetch-in-RN-0-25-调用链"><a href="#fetch-in-RN-0-25-调用链" class="headerlink" title="fetch in RN 0.25 调用链"></a>fetch in RN 0.25 调用链</h3><ul><li>app/AppNetworking.js</li></ul><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">fetch</span><span class="params">(reqUrl,fetchObj)</span></span></span><br></pre></td></tr></table></figure><ul><li>node_modules/react-native/Libraries/Fetch/fetch.js line 377: </li></ul><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">line <span class="number">368</span>: <span class="keyword">self</span>.fetch = <span class="function"><span class="keyword">function</span><span class="params">(input, init)</span> </span>&#123;</span><br><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br></pre></td></tr></table></figure><ul><li>node_modules/react-native/Libraries/JavaScriptAppEngine/Initialzation/InitializeJavaScriptAppEngine.js  line 137:<br>定义的全局fetch和XMLHttpRequest 以及其他的</li></ul><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setUpXHR</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// The native XMLHttpRequest in Chrome dev tools is CORS aware and won't</span></span><br><span class="line">  <span class="comment">// let you fetch anything from the internet</span></span><br><span class="line">  polyfillGlobal(<span class="string">'XMLHttpRequest'</span>, <span class="keyword">require</span>(<span class="string">'XMLHttpRequest'</span>));</span><br><span class="line">  polyfillGlobal(<span class="string">'FormData'</span>, <span class="keyword">require</span>(<span class="string">'FormData'</span>));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> fetchPolyfill = <span class="keyword">require</span>(<span class="string">'fetch'</span>);</span><br><span class="line">  polyfillGlobal(<span class="string">'fetch'</span>, fetchPolyfill.fetch);</span><br><span class="line">  polyfillGlobal(<span class="string">'Headers'</span>, fetchPolyfill.Headers);</span><br><span class="line">  polyfillGlobal(<span class="string">'Request'</span>, fetchPolyfill.Request);</span><br><span class="line">  polyfillGlobal(<span class="string">'Response'</span>, fetchPolyfill.Response);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ul><li>node_modules/react-native/Libraries/Network/XMLHttpRequest.ios.js line 15:</li></ul><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">var RCTNetworking</span> = require(<span class="string">'RCTNetworking'</span>);</span><br></pre></td></tr></table></figure><ul><li>node_modules/react-native/Libraries/Network/RCTNetworking.ios.js line 13:</li></ul><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">var RCTNetworkingNative</span> = require(<span class="string">'NativeModules'</span>).Networking;</span><br></pre></td></tr></table></figure><ul><li>node_modules/react-native/Libraries/Network/RCTNetworking.m line 135 and 432:</li></ul><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">RCT_EXPORT_MODULE</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="title">RCT_EXPORT_METHOD</span><span class="params">(sendRequest:(NSDictionary *)</span><span class="title">query</span></span></span><br><span class="line">                  responseSender:(RCTResponseSenderBlock)responseSender)</span><br></pre></td></tr></table></figure><ul><li>分析iOS的实现, 使用了系统原生的 NSURLRequest,NSURLSession等</li><li>分析Android的实现. 使用了OKHttp</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;React Native 源码阅读(1):网络&lt;/p&gt;
-&lt;h3 id=&quot;fetch-in-RN-0-25-调用链&quot;&gt;&lt;a href=&quot;#fetch-in-RN-0-25-调用链&quot; class=&quot;headerlink&quot; title=&quot;fetch in RN 0.25 调用链&quot;
-      
-    
-    </summary>
-    
-    
-      <category term="ReactNative" scheme="http://mactive.github.io/tags/ReactNative/"/>
-    
-      <category term="Networking" scheme="http://mactive.github.io/tags/Networking/"/>
     
   </entry>
   

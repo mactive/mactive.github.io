@@ -242,6 +242,135 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/13/ReactNative-SourceCode-Networking/" itemprop="url">
+                  ReactNative SourceCode Networking
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-07-13T15:03:36+08:00" content="2016-07-13">
+              2016-07-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/13/ReactNative-SourceCode-Networking/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/13/ReactNative-SourceCode-Networking/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>React Native 源码阅读(1):网络</p>
+<h3 id="fetch-in-RN-0-25-调用链"><a href="#fetch-in-RN-0-25-调用链" class="headerlink" title="fetch in RN 0.25 调用链"></a>fetch in RN 0.25 调用链</h3><ul>
+<li>app/AppNetworking.js</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">fetch</span><span class="params">(reqUrl,fetchObj)</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>node_modules/react-native/Libraries/Fetch/fetch.js line 377: </li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">line <span class="number">368</span>: <span class="keyword">self</span>.fetch = <span class="function"><span class="keyword">function</span><span class="params">(input, init)</span> </span>&#123;</span><br><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>node_modules/react-native/Libraries/JavaScriptAppEngine/Initialzation/InitializeJavaScriptAppEngine.js  line 137:<br>定义的全局fetch和XMLHttpRequest 以及其他的</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setUpXHR</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// The native XMLHttpRequest in Chrome dev tools is CORS aware and won't</span></span><br><span class="line">  <span class="comment">// let you fetch anything from the internet</span></span><br><span class="line">  polyfillGlobal(<span class="string">'XMLHttpRequest'</span>, <span class="keyword">require</span>(<span class="string">'XMLHttpRequest'</span>));</span><br><span class="line">  polyfillGlobal(<span class="string">'FormData'</span>, <span class="keyword">require</span>(<span class="string">'FormData'</span>));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> fetchPolyfill = <span class="keyword">require</span>(<span class="string">'fetch'</span>);</span><br><span class="line">  polyfillGlobal(<span class="string">'fetch'</span>, fetchPolyfill.fetch);</span><br><span class="line">  polyfillGlobal(<span class="string">'Headers'</span>, fetchPolyfill.Headers);</span><br><span class="line">  polyfillGlobal(<span class="string">'Request'</span>, fetchPolyfill.Request);</span><br><span class="line">  polyfillGlobal(<span class="string">'Response'</span>, fetchPolyfill.Response);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>node_modules/react-native/Libraries/Network/XMLHttpRequest.ios.js line 15:</li>
+</ul>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">var RCTNetworking</span> = require(<span class="string">'RCTNetworking'</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>node_modules/react-native/Libraries/Network/RCTNetworking.ios.js line 13:</li>
+</ul>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">var RCTNetworkingNative</span> = require(<span class="string">'NativeModules'</span>).Networking;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>node_modules/react-native/Libraries/Network/RCTNetworking.m line 135 and 432:</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">RCT_EXPORT_MODULE</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="title">RCT_EXPORT_METHOD</span><span class="params">(sendRequest:(NSDictionary *)</span><span class="title">query</span></span></span><br><span class="line">                  responseSender:(RCTResponseSenderBlock)responseSender)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>分析iOS的实现, 使用了系统原生的 NSURLRequest,NSURLSession等</li>
+<li>分析Android的实现. 使用了OKHttp</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/23/ReactNative-Dive-into-Debugging/" itemprop="url">
                   深入理解 React Native Debugging
                 </a>
@@ -1286,133 +1415,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2012/11/11/delegate/" itemprop="url">
-                  Delegate passvalue in iOS
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2012-11-11T16:03:15+08:00" content="2012-11-11">
-              2012-11-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2012/11/11/delegate/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2012/11/11/delegate/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#delegate 传值实例</p>
-<p>实现一个delegate</p>
-<h3 id="PassValueDelegate"><a href="#PassValueDelegate" class="headerlink" title="@PassValueDelegate"></a>@PassValueDelegate</h3><pre><code>#import &lt;Foundation/Foundation.h&gt;
-
-@protocol PassValueDelegate &lt;NSObject&gt;
-
-@optional
--(void)passStringValue:(NSString *)value andIndex:(NSUInteger )index;
--(void)passNSDateValue:(NSDate *)value andIndex:(NSUInteger)index;
-
-@end
-</code></pre><p>###@ ProfileMeController</p>
-<p>谁需要实现delegate的方法 就在interface的时候写上 </p>
-<pre><code>@interface ProfileMeController : UIViewController&lt;PassValueDelegate&gt;{}
-</code></pre><p>然后在implation 中写具体实现<br>在初始化EditViewController的时候 需要</p>
-<p>####controller.delegate = self;</p>
-<pre><code>-(void)passStringValue:(NSString *)value andIndex:(NSUInteger )index;
-{
-       NSLog(@&quot;*** %@ %d ***&quot;,value,index);
-   }
-</code></pre><h5 id="这里的delegate实现是为了-从-EditViewController-向-ProfileMeController-传递值-编辑完信息然后传回来"><a href="#这里的delegate实现是为了-从-EditViewController-向-ProfileMeController-传递值-编辑完信息然后传回来" class="headerlink" title="这里的delegate实现是为了 从 EditViewController 向 ProfileMeController 传递值,编辑完信息然后传回来"></a>这里的delegate实现是为了 从 EditViewController 向 ProfileMeController 传递值,编辑完信息然后传回来</h5><p>###@ EditViewController</p>
-<p>interface的时候不用写delegate 但是 要声明一个变量</p>
-<pre><code>@interface EditViewController : UIViewController{}
-
-@property(nonatomic,assign) NSObject&lt;PassValueDelegate&gt; *delegate;
-</code></pre><p>然后在需要的地方传值</p>
-<pre><code>[self.delegate passStringValue:self.valueTextField.text andIndex:self.valueIndex];
-</code></pre><h5 id="另外不要忘记在-edit和profile-这两个文件的头部引用-PassValueDelegate-h"><a href="#另外不要忘记在-edit和profile-这两个文件的头部引用-PassValueDelegate-h" class="headerlink" title="另外不要忘记在 edit和profile 这两个文件的头部引用 PassValueDelegate.h"></a>另外不要忘记在 edit和profile 这两个文件的头部引用 PassValueDelegate.h</h5>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1456,7 +1458,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-count">32</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1466,7 +1468,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

@@ -242,6 +242,112 @@
             
               
                 
+                <a class="post-title-link" href="/2017/04/20/nodejs-addon-cpp/" itemprop="url">
+                  NodeJS 和 C++ -- 低(前)端程序员为什么要学C++
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-04-20T08:59:00+08:00" content="2017-04-20">
+              2017-04-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/04/20/nodejs-addon-cpp/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/20/nodejs-addon-cpp/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>先来个简单的公式</p>
+<h2 id="NodeJS-Foundation-V8-Engine-JS-API"><a href="#NodeJS-Foundation-V8-Engine-JS-API" class="headerlink" title="NodeJS = Foundation + V8 Engine + JS API"></a>NodeJS = Foundation + V8 Engine + JS API</h2><p>如果我们仔细看一下Node的源码,其中有23.8%的C++,5.6%的C,还有64.5%的JS.<br><code>Foundation</code>中包含几大核心, File(文件操作),Network(网络),Event(事件驱动),Stream(流的概念),Module(模块系统). 这几块无一不是C/C++实现的.JS的解释器V8Engine更是C/C++实现的,别忘了Chrome可能是世界上最大的C/C++项目了.</p>
+<p><code>Foundtion</code>既然是C++实现的,那么在各个操作系统上的实现肯定不一样了.你可以想想一下读取Linux上的文件和Win10上的文件的C++代码肯定不一样, 而且你的C++代码需要调用操作系统的C++API才能实现功能. 据我所知,大部分的操作系统都是用C/C++写成的.</p>
+<p>JS API可能是通用的,因为Node为我们实现了一套C-&gt;JS的bridge,这样Node开发组的同学就可以用JS做一些API的封装和抽象.而社区里写npm package的同学可以只使用JS API 就可以做一些工具包了.  因为<code>Foundation</code> 和 <code>V8Engine</code> 已经接受了多年业界的考验. 在此感谢Google和社区默默贡献的C/C++程序员.</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/04/20/nodejs-addon-cpp/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/24/vue-component-1/" itemprop="url">
                   Vue 组件开发心得(1)
                 </a>
@@ -1255,135 +1361,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/13/ReactNative-SourceCode-Networking/" itemprop="url">
-                  ReactNative SourceCode Networking
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-07-13T15:03:36+08:00" content="2016-07-13">
-              2016-07-13
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/13/ReactNative-SourceCode-Networking/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/13/ReactNative-SourceCode-Networking/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>React Native 源码阅读(1):网络</p>
-<h3 id="fetch-in-RN-0-25-调用链"><a href="#fetch-in-RN-0-25-调用链" class="headerlink" title="fetch in RN 0.25 调用链"></a>fetch in RN 0.25 调用链</h3><ul>
-<li>app/AppNetworking.js</li>
-</ul>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">fetch</span><span class="params">(reqUrl,fetchObj)</span></span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>node_modules/react-native/Libraries/Fetch/fetch.js line 377: </li>
-</ul>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">line <span class="number">368</span>: <span class="keyword">self</span>.fetch = <span class="function"><span class="keyword">function</span><span class="params">(input, init)</span> </span>&#123;</span><br><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br></pre></td></tr></table></figure>
-<ul>
-<li>node_modules/react-native/Libraries/JavaScriptAppEngine/Initialzation/InitializeJavaScriptAppEngine.js  line 137:<br>定义的全局fetch和XMLHttpRequest 以及其他的</li>
-</ul>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setUpXHR</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// The native XMLHttpRequest in Chrome dev tools is CORS aware and won't</span></span><br><span class="line">  <span class="comment">// let you fetch anything from the internet</span></span><br><span class="line">  polyfillGlobal(<span class="string">'XMLHttpRequest'</span>, <span class="keyword">require</span>(<span class="string">'XMLHttpRequest'</span>));</span><br><span class="line">  polyfillGlobal(<span class="string">'FormData'</span>, <span class="keyword">require</span>(<span class="string">'FormData'</span>));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> fetchPolyfill = <span class="keyword">require</span>(<span class="string">'fetch'</span>);</span><br><span class="line">  polyfillGlobal(<span class="string">'fetch'</span>, fetchPolyfill.fetch);</span><br><span class="line">  polyfillGlobal(<span class="string">'Headers'</span>, fetchPolyfill.Headers);</span><br><span class="line">  polyfillGlobal(<span class="string">'Request'</span>, fetchPolyfill.Request);</span><br><span class="line">  polyfillGlobal(<span class="string">'Response'</span>, fetchPolyfill.Response);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>node_modules/react-native/Libraries/Network/XMLHttpRequest.ios.js line 15:</li>
-</ul>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">var RCTNetworking</span> = require(<span class="string">'RCTNetworking'</span>);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>node_modules/react-native/Libraries/Network/RCTNetworking.ios.js line 13:</li>
-</ul>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">var RCTNetworkingNative</span> = require(<span class="string">'NativeModules'</span>).Networking;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>node_modules/react-native/Libraries/Network/RCTNetworking.m line 135 and 432:</li>
-</ul>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">RCT_EXPORT_MODULE</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="title">RCT_EXPORT_METHOD</span><span class="params">(sendRequest:(NSDictionary *)</span><span class="title">query</span></span></span><br><span class="line">                  responseSender:(RCTResponseSenderBlock)responseSender)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>分析iOS的实现, 使用了系统原生的 NSURLRequest,NSURLSession等</li>
-<li>分析Android的实现. 使用了OKHttp</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1427,7 +1404,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-count">32</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1437,7 +1414,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
